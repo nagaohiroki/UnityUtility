@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
 public class SyncSolution
@@ -22,6 +21,5 @@ public class SyncSolution
 		var synchronizerObject = syncVS.GetField("Synchronizer", BindingFlags.NonPublic | BindingFlags.Static).GetValue(syncVS);
 		syncVS.GetMethod("SyncSolution", BindingFlags.Public | BindingFlags.Static).Invoke(null, null);
 		synchronizerObject.GetType().GetMethod("Sync", BindingFlags.Public | BindingFlags.Instance).Invoke(synchronizerObject, null);
-		Debug.Log("Sync");
 	}
 }
