@@ -10,7 +10,10 @@ public class SyncSolution
 	{
 		if(Path.GetExtension(AssetDatabase.GetAssetPath(inInstanceID)) == ".cs")
 		{
-			Sync();
+			if(EditorPrefs.GetString("kScriptsDefaultApp").Contains("vim"))
+			{
+				Sync();
+			}
 		}
 		return false;
 	}
