@@ -8,7 +8,7 @@ public class ReferenceViewer : EditorWindow
 	Object mTargetObject;
 	IEnumerable<Object> mReferenceList;
 	Vector2 mScroll;
-	[MenuItem("Assets/UnityUtiliy/ReferenceViewer")]
+	[MenuItem("Assets/UnityUtility/ReferenceViewer")]
 	static void FindReference()
 	{
 		EditorWindow.GetWindow<ReferenceViewer>(typeof(ReferenceViewer).Name).UpdateReference(Selection.activeObject);

@@ -2,7 +2,7 @@
 public class SearchGUID : EditorWindow
 {
 	string mGUID;
-	[MenuItem("Assets/UnityUtiliy/SearchGUID")]
+	[MenuItem("Assets/UnityUtility/SearchGUID")]
 	static void Open()
 	{
 		EditorWindow.GetWindow<SearchGUID>(typeof(SearchGUID).Name);
