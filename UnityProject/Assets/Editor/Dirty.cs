@@ -1,12 +1,15 @@
 ﻿using UnityEditor;
-public class Dirty
+namespace UnityUtility
 {
-	[MenuItem("Assets/UnityUtility/SetDirty")]
-	static void SetDirty()
+	public class Dirty
 	{
-		foreach (var obj in Selection.objects)
+		[MenuItem("Assets/UnityUtility/SetDirty")]
+		static void SetDirty()
 		{
-			EditorUtility.SetDirty(obj);
+			foreach(var obj in Selection.objects)
+			{
+				EditorUtility.SetDirty(obj);
+			}
 		}
 	}
 }

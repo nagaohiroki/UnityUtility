@@ -2,43 +2,49 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
-public class ReferenceViewer : EditorWindow
+namespace UnityUtility
 {
-	[SerializeField]
-	Object mTargetObject;
-	IEnumerable<Object> mReferenceList;
-	Vector2 mScroll;
-	[MenuItem("Assets/UnityUtility/ReferenceViewer")]
-	static void FindReference()
+	public class ReferenceViewer : EditorWindow
 	{
-		EditorWindow.GetWindow<ReferenceViewer>(typeof(ReferenceViewer).Name).UpdateReference(Selection.activeObject);
-	}
-	void UpdateReference(Object inObject)
-	{
-		Undo.RecordObject(this, typeof(ReferenceViewer).Name);
-		mTargetObject = inObject;
-		var selectPath = AssetDatabase.GetAssetPath(mTargetObject);
-		mReferenceList = AssetDatabase.GetAllAssetPaths()
-			.Where(path => AssetDatabase.GetDependencies(path, false).Contains(selectPath))
-			.Select(path => AssetDatabase.LoadAssetAtPath<Object>(path)).ToArray();
-	}
-	void OnGUI()
-	{
-		mScroll = EditorGUILayout.BeginScrollView(mScroll);
-		EditorGUILayout.BeginHorizontal();
-		mTargetObject = EditorGUILayout.ObjectField(mTargetObject, typeof(Object), false);
-		EditorGUILayout.EndHorizontal();
-		if (mReferenceList != null)
+		[SerializeField]
+		Object mTargetObject;
+		IEnumerable<Object> mReferenceList;
+		Vector2 mScroll;
+		[MenuItem("Assets/UnityUtility/ReferenceViewer")]
+		static void FindReference()
 		{
-			foreach(var item in mReferenceList)
-			{
-				EditorGUILayout.BeginHorizontal();
-				EditorGUI.BeginDisabledGroup(true);
-				EditorGUILayout.ObjectField(item, typeof(Object), false);
-				EditorGUI.EndDisabledGroup();
-				EditorGUILayout.EndHorizontal();
-			}
+			EditorWindow.GetWindow<ReferenceViewer>(typeof(ReferenceViewer).Name).UpdateReference(Selection.activeObject);
 		}
-		EditorGUILayout.EndScrollView();
+		void UpdateReference(Object inObject)
+		{
+			mTargetObject = inObject;
+			var selectPath = AssetDatabase.GetAssetPath(mTargetObject);
+			mReferenceList = AssetDatabase.GetAllAssetPaths()
+				.Where(path => AssetDatabase.GetDependencies(path, false).Contains(selectPath))
+				.Select(path => AssetDatabase.LoadAssetAtPath<Object>(path)).ToArray();
+		}
+		void OnGUI()
+		{
+			mScroll = EditorGUILayout.BeginScrollView(mScroll);
+			EditorGUILayout.BeginHorizontal();
+			mTargetObject = EditorGUILayout.ObjectField(mTargetObject, typeof(Object), false);
+			if(GUILayout.Button("Update"))
+			{
+				UpdateReference(mTargetObject);
+			}
+			EditorGUILayout.EndHorizontal();
+			EditorGUI.BeginDisabledGroup(true);
+			if(mReferenceList != null)
+			{
+				foreach(var item in mReferenceList)
+				{
+					EditorGUILayout.BeginHorizontal();
+					EditorGUILayout.ObjectField(item, typeof(Object), false);
+					EditorGUILayout.EndHorizontal();
+				}
+			}
+			EditorGUI.EndDisabledGroup();
+			EditorGUILayout.EndScrollView();
+		}
 	}
 }
