@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEditor.Callbacks;
 public class DeleteDontShipData
 {
+	/*
 	[PostProcessBuild(2000)]
 	public static void OnPostprocessBuild(BuildTarget target, string path)
 	{
@@ -28,4 +29,5 @@ public class DeleteDontShipData
 			}
 		}
 	}
+		*/
 }
